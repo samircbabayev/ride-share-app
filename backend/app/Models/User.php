@@ -3,12 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Driver;
+use App\Models\Trip;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Driver;
-use App\Models\Trip;
 
 class User extends Authenticatable
 {
@@ -19,10 +19,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+    // protected $fillable = [
+    //     // 'name',
+    //     'email',
+    //     'password',
+    // ];
+
+    protected $guarded = [
+
     ];
 
     /**
@@ -31,13 +35,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'login_code',
         'remember_token',
     ];
 
     public function routeNotificationForTwilio()
     {
-      return $this->phone;
+        return $this->phone;
     }
 
     // /**
@@ -52,11 +56,11 @@ class User extends Authenticatable
 
     public function driver()
     {
-      return $this->hasOne(Driver::class);
+        return $this->hasOne(Driver::class);
     }
 
     public function trips()
     {
-      return $this->hasMany(Trip::class);
+        return $this->hasMany(Trip::class);
     }
 }
