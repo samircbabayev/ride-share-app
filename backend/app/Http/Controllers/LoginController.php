@@ -12,7 +12,7 @@ class LoginController extends Controller
         # validate the phone number
         $request->validate([
             // 'attribute' => 'rules',
-            'phone' => 'required|numeric|min:10',
+            'phone' => 'required|numeric|min-digits:10',
         ]);
         # find or create a user model
         // return response()->json([
@@ -30,10 +30,15 @@ class LoginController extends Controller
 
         # send the user a one-time use code
         // $user->notify(new LoginNeedsVerification());
+        $loginCode = rand(111111, 999999);
+        $user->update([
+            'login_code' => $loginCode,
+        ]);
+
 
         # return back a response
         return response()->json([
-            'message' => 'Text message verification send.',
+            'message' => "verification text {$loginCode}",
         ]);
     }
 
